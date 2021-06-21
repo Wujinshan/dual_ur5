@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"   name="dual_ur" >
+	<!--grey-->
+	<material name="grey">
+ 		<color rgba="0.5 0.5 0.5 1.0"/>
+	</material>
+	<material name="black">
+ 		<color rgba="0.0  0.0  0.0  1.0"/>
+	</material>
+	<!-- prefix of two arms -->
+	<xacro:property name="prefix1" value="left_" />
+  	<xacro:property name="prefix2" value="right_" />
+  	<!-- transmission -->
+ 	 <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+	<!-- common stuff -->
+	<xacro:include filename="$(find dual_ur_description)/urdf/common.gazebo.xacro" />
+
+	<!-- ur10 -->
+	<xacro:include filename="$(find dual_ur_description)/urdf/ur5.urdf.xacro" />
+
+	<!-- arm -->
+	<xacro:ur5_robot prefix="${prefix1}" joint_limited="true"
+	  shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+	  shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+	  elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+	  wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+	  wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+	  wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+	  transmission_hw_interface="$(arg transmission_hw_interface)"
+	/>
+
+	<xacro:ur5_robot prefix="${prefix2}" joint_limited="true"
+	  shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+	  shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+	  elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+	  wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+	  wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+	  wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+	  transmission_hw_interface="$(arg transmission_hw_interface)"
+	/>
+
+	<link name="world" />
+
+	<joint name="${prefix1}world_joint" type="fixed">
+		<parent link="world" />
+		<child link = "${prefix1}base_link" />
+		<origin xyz="0.0 0.0 0.70" rpy="0.0 0.0 0.0" />
+	</joint>
+
+	<joint name="${prefix2}world_joint" type="fixed">
+		<parent link="world" />
+		<child link = "${prefix2}base_link" />
+		<origin xyz="-0.00640616 1.95586 0.70" rpy="-3.13636 3.11726 0.00817339" />
+	</joint>
+	
+</robot>
